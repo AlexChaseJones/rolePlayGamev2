@@ -72,7 +72,6 @@ for (var i = 0; i < characterNames.length; i++) {
 };
 
 //Initial setup, puts Characters into #characters.
-
 for (var i = 0; i <characterNames.length; i++) {
 	var target = characterNames[i];
 
@@ -82,12 +81,52 @@ for (var i = 0; i <characterNames.length; i++) {
 	$(chooseplayerDiv).appendTo('#characters');
 };
 
-$('.choice').on('click', enemyEnvironmentBuild);
+$('.choice').on('click', playerChoice);
 
-function enemyEnvironmentBuild(){
-	
+function playerChoice(){
+	target = $(this).data('index');
+	playerObject = characters[target];	
+	$('#characters').remove();
+	removeIndex(target);
+	environmentBuild(playerObject);
 };
 
+function environmentBuild(player) {
+	var environment = $('#environment');
+
+	if (characterNames.length != 0) {
+		for (var i = 0; i < characterNames.length; i++) {
+			var enemyObject = characters[characterNames[i]];
+			var enemyName = characterNames[i];
+			renderEnemy(enemyObject, environment, enemyName)
+		}
+	} else {
+		console.log("gameover");
+	}
+	var playerName = player.name;
+	renderPlayer(player, environment, playerName);
+}
+
+function removeIndex(char) {
+	var index = characterNames.indexOf(char);
+	characterNames.splice(index, 1);
+}
+
+function renderEnemy(object, position, name){
+	var newRender = $('<div class="enemy">');
+	$(newRender).attr('id', name);
+	$(newRender).attr('data-index', name);
+	$(newRender).html(object.battleCode());
+	$(newRender).appendTo(position);
+};
+
+function renderPlayer(object, position, name){
+	var newRender = $('<div class="player">');
+	$(newRender).attr('id', name);
+	$(newRender).attr('data-index', name);
+	$(newRender).html(object.battleCode());
+	$(newRender).appendTo(position);
+};
 
 // })
 
