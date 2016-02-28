@@ -55,7 +55,7 @@ var characterNames = ['starfox','mario','link','donkeyKong'];
 		counter: 35, 
 	}
 };
-//Adds functions that build HTML code to all characters.
+//Adds functions that build HTML code to all characters
 for (var i = 0; i < characterNames.length; i++) {
 	var target = characterNames[i];
 
@@ -72,21 +72,23 @@ for (var i = 0; i < characterNames.length; i++) {
 };
 
 //Initial setup, puts Characters into #characters.
-for (var i = 0; i <characterNames.length; i++) {
-	var target = characterNames[i];
+function menuBuild(){
+	for (var i = 0; i <characterNames.length; i++) {
+		var target = characterNames[i];
 
-	var chooseplayerDiv = $('<div class="choice">');
-	$(chooseplayerDiv).html(characters[target].choiceCode());
-	$(chooseplayerDiv).attr('data-index', characterNames[i]);
-	$(chooseplayerDiv).appendTo('#characters');
-};
-
-$('.choice').on('click', playerChoice);
+		var chooseplayerDiv = $('<div class="choice">');
+		$(chooseplayerDiv).html(characters[target].choiceCode());
+		$(chooseplayerDiv).attr('data-index', characterNames[i]);
+		$(chooseplayerDiv).appendTo('#characters');
+	};
+	$('.choice').on('click', playerChoice);
+}
 
 function playerChoice(){
-	target = $(this).data('index');
+	$('.choice').off('click');
+	var target = $(this).data('index');
 	playerObject = characters[target];	
-	$('#characters').remove();
+	$('#characters').empty();
 	removeIndex(target);
 	environmentBuild(playerObject);
 };
@@ -101,11 +103,14 @@ function environmentBuild(player) {
 			renderEnemy(enemyObject, environment, enemyName)
 		}
 	} else {
-		console.log("gameover");
+		console.log("game over");
 	}
 	var playerName = player.name;
 	renderPlayer(player, environment, playerName);
+
+	$('.enemy').on('click', defenderChoice);
 }
+
 
 function removeIndex(char) {
 	var index = characterNames.indexOf(char);
@@ -128,7 +133,29 @@ function renderPlayer(object, position, name){
 	$(newRender).appendTo(position);
 };
 
+function defenderChoice(){
+	$('.enemy').off('click');
+	var target = $(this).data('index');
+	defenderObject = characters[target];
+	$(this).addClass('defender');
+	var attackButton = createButton();
+	$(this).append(attackButton);
+	debugger;
+}
+
+function createButton(){
+	var newDiv = $('<div id="attackButton">');
+	$(newDiv).html('Attack!');
+	return newDiv;
+}
+
+menuBuild();
+
+
+
+
 // })
+
 
 
 
