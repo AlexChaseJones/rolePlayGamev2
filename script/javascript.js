@@ -1,10 +1,10 @@
-// $(document).ready(function(){
+$(document).ready(function(){
 
-var characterNames = ['starfox','mario','link','donkeyKong'];
+var characterNames = ['Starfox','Mario','Link','DonkeyKong'];
  //Character Builds.
 characters = {
-	starfox: {
-		name: "Star Fox",
+	Starfox: {
+		name: "Starfox",
 		indexNum: 0,
 		picture: "images/starfox.png",
 		health: 150,
@@ -16,7 +16,7 @@ characters = {
 		},
 		counterAttack: 7,
 	},
-	mario: {
+	Mario: {
 		name: "Mario",
 		indexNum: 1,
 		picture: "images/mario.png",
@@ -29,7 +29,7 @@ characters = {
 		},
 		counterAttack: 8,
 	},
-	link: {
+	Link: {
 		name: "Link",
 		indexNum: 2,
 		picture: "images/link.png",
@@ -42,8 +42,8 @@ characters = {
 		},
 		counterAttack: 11,
 	},
-	donkeyKong: {
-		name: "Donkey Kong",
+	DonkeyKong: {
+		name: "DonkeyKong",
 		indexNum: 3,
 		picture: "images/donkeyKong.png",
 		health: 190,
@@ -137,10 +137,8 @@ function defenderChoice(){
 	defenderObject = characters[target];
 	$(this).addClass('defender');
 	defenderDiv = $(this);
-	var button = createButton();
-	$(this).after(button);
 
-	$('#attackButton').on('click', attackSequence);
+	$('.defender').on('click', attackSequence);
 };
 
 function createButton(){
@@ -159,9 +157,11 @@ function attackSequence(){
 function outcomeCheck(){
 	if (defenderObject.health <= 0 && playerObject.health > 0) { //if the defender is dead and the player is alive,
 		isDead(defenderDiv, defenderObject);
-
+		if (characterNames.length <= 0) {
+			newGame('You Won!')
+		} else {
 		$('.enemy').on('click', defenderChoice);
-
+		}
 	} else if (defenderObject.health <= 0 && playerObject.health <= 0) {	//if both the player and defender are dead,
 		
 		isDead(defenderDiv, defenderObject);
@@ -169,14 +169,15 @@ function outcomeCheck(){
 
 		if (characterNames.length <= 0) {		//check for a tie.
 			alert('Tie!');
-			newGame('It\'s a tie!');
+			newGame('It\'s A Tie!');
 		} else {
-			newGame('You lose!');
+			newGame('You Lost!');
 		}
 
 	} else if (defenderObject.health > 0 && playerObject.health <= 0) {	//if the defender is alive and the player is dead,
 		isDead(playerDiv, playerObject);
-		newGame("You lose!");
+		newGame('You Lose!');
+		$('.defender').off('click');
 	} else {												//if the player is alive and the defender is alive.
 		$(playerDiv).html(playerObject.battleCode());
 		$(defenderDiv).html(defenderObject.battleCode());
@@ -187,10 +188,9 @@ function isDead(div, object){
 	object.health = 0;
 	$(div).html(defenderObject.battleCode());
 	$(div).appendTo('#graveyard');
-	$(div).removeClass('player defender enemy');
+	$(div).removeClass('enemy player defender');
+	$(div).removeAttr("id");
 	$(div).addClass('dead');
-
-	$(attackButton).remove();
 
 	removeIndex(object.name);
 
@@ -213,7 +213,7 @@ function playAgainDiv(message){
 	var noButton = $('<button id="no">No</button>');
 	$(restartDiv).append(yesButton);
 	$(restartDiv).append(noButton);
-	$('#characters').append(restartDiv);
+	$('#wrapper').append(restartDiv);
 }
 
 function restartGame (){
@@ -223,9 +223,7 @@ function restartGame (){
 initialBuild();
 
 
-
-
-// })
+})
 
 
 

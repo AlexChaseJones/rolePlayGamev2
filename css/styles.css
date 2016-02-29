@@ -2,6 +2,9 @@ body, html {
 	width: 100%;
 	height: 100%;
 	font-family: 'Raleway', sans-serif;
+	background-image: url("../images/ZenBG-1.png"), url("../images/ZenBG-2.png");
+	background-repeat: repeat-x, repeat;
+	color: white;
 }
 
 .container {
@@ -14,8 +17,8 @@ body, html {
 
 #characters > h1 {
 	position: absolute;
-	top: 50px;
-	left:100px;	
+	top: 80px;
+	left:130px;	
 	width: 350px;
 	font-size: 3.5em;
 }
@@ -33,7 +36,7 @@ body, html {
 }
 
 .choice:hover {
-	background-color: rgba(0,155,0,.6);
+	background-color: rgba(255,255,255,.3);
 }
 
 .choice h1 {
@@ -58,23 +61,32 @@ body, html {
 	background-repeat:no-repeat;
     background-size:1200px 675px;
     position: relative;
+    border-radius: 50px;
+    box-shadow: 0px 0px 100px 30px black inset;
+    margin:20px;
 }
-.enemy, .player {
+
+.enemy, .player, .dead{
 	border:5px solid black;
 	border-radius: 15px;
 	display: inline-block;
 	background-color: none;
 	padding: 5px;
-	transition: background-color .4s;
+	transition: background-color .4s, transform .4s;
 	position: absolute;
 }
 
 .enemy {
-	border-color: rgba(255,60,0,.6);
+	border-color: rgba(255,80,0,.6);
 }
 
 .enemy:hover {
-	background-color: rgba(255,60,0,.6);
+	background-color: rgba(255,80,0,.6);
+	transform: rotate(6deg);
+}
+
+.enemy:hover img{
+	width: 160px;
 }
 
 .player {
@@ -85,8 +97,9 @@ body, html {
 	background-color: rgba(0,155,0,.6);
 }
 
-.enemy img, .player img {
-	width: 150px;
+.enemy img, .player img, .dead img {
+	width: 130px;
+	transition: width .4s;
 }
 
 .enemy h1, .player h1 {
@@ -97,26 +110,84 @@ body, html {
 	float: right;	
 }
 
-#starfox {
-
+#Starfox {
+	top: 117px;
+	left: 170px;
 }
 
-#mario {
-
+#Mario {
+	top:300px;
+	left: 350px;
 }
 
-#link {
-
+#Link {
+	 top:300px;
+ 	left: 600px;
 }
 
-#donkeyKong {
-
+#DonkeyKong {
+	top: 117px;
+	left: 900px;
 }
+
+#DonkeyKong h1 {
+	padding-right: 10px;
+}
+
+#DonkeyKong img {
+	padding-left: 10px;
+}
+
+.defender {
+	background-color: none;
+	border-color: rgba(255,0,0,.6);
+}
+
+.defender:hover {
+	background-color: rgba(255,0,0,.6);
+}
+
+.dead {
+	border: hidden;
+	transform: rotate(90deg);
+	position: relative;
+}
+.dead h1 {
+	visibility: hidden;
+}
+
+.dead h2 {
+	visibility: hidden;	
+}
+
+.dead img {
+	opacity: .8;
+}
+
+#graveyard {
+	min-height: 175px;
+	width: 430px;
+	margin: 0 auto 30px auto;
+	background-color: rgba(0,0,0,.6);
+	box-shadow: 0px 0px 30px 5px black inset;
+	border-radius: 20px;
+	position: relative;
+	text-align: center;
+}
+
+#graveyard > h1 {
+	font-size: 4em;
+	letter-spacing: 0px;
+	position: absolute;
+	top: 55px;
+	left:25px;
+	opacity: .5;
+}
+
 
 .clearfix {
 	clear: both;
 }
-
 
 
 
