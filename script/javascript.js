@@ -1,8 +1,8 @@
 // $(document).ready(function(){
 
 var characterNames = ['starfox','mario','link','donkeyKong'];
-//Character Builds.
-	characters = {
+ //Character Builds.
+characters = {
 	starfox: {
 		name: "Star Fox",
 		indexNum: 0,
@@ -10,12 +10,12 @@ var characterNames = ['starfox','mario','link','donkeyKong'];
 		health: 150,
 		baseAttack: 4,
 		currentAttack: 0,
-		attack: function(){
+		newAttack: function(){
 			this.currentAttack += 4;
+			return this.currentAttack;
 		},
-		counter: 24,
+		counterAttack: 15,
 	},
-
 	mario: {
 		name: "Mario",
 		indexNum: 1,
@@ -23,12 +23,12 @@ var characterNames = ['starfox','mario','link','donkeyKong'];
 		health: 120,
 		baseAttack: 6,
 		currentAttack: 0,
-		attack: function(){
-			this.currentAttack += 6;
+		newAttack: function(){
+			this.currentAttack += 4;
+			return this.currentAttack;
 		},
-		counter: 30,
+		counterAttack: 12,
 	},
-
 	link: {
 		name: "Link",
 		indexNum: 2,
@@ -36,12 +36,12 @@ var characterNames = ['starfox','mario','link','donkeyKong'];
 		health: 150,
 		baseAttack: 5,
 		currentAttack: 0,
-		attack: function(){
-			this.currentAttack += 5;
+		newAttack: function(){
+			this.currentAttack += 4;
+			return this.currentAttack;
 		},
-		counter: 20,
+		counterAttack: 14,
 	},
-
 	donkeyKong: {
 		name: "Donkey Kong",
 		indexNum: 3,
@@ -49,10 +49,11 @@ var characterNames = ['starfox','mario','link','donkeyKong'];
 		health: 190,
 		baseAttack: 3,	
 		currentAttack: 0,
-		attack: function(){
-			this.currentAttack += 3;
+		newAttack: function(){
+			this.currentAttack += 4;
+			return this.currentAttack;
 		},
-		counter: 35, 
+		counterAttack: 10, 
 	}
 };
 //Adds functions that build HTML code to all characters
@@ -72,7 +73,7 @@ for (var i = 0; i < characterNames.length; i++) {
 };
 
 //Initial setup, puts Characters into #characters.
-function menuBuild(){
+function initialBuild(){
 	for (var i = 0; i <characterNames.length; i++) {
 		var target = characterNames[i];
 
@@ -82,9 +83,10 @@ function menuBuild(){
 		$(chooseplayerDiv).appendTo('#characters');
 	};
 	$('.choice').on('click', playerChoice);
-}
+};
 
 function playerChoice(){
+	debugger;
 	$('.choice').off('click');
 	var target = $(this).data('index');
 	playerObject = characters[target];	
@@ -96,26 +98,23 @@ function playerChoice(){
 function environmentBuild(player) {
 	var environment = $('#environment');
 
-	if (characterNames.length != 0) {
 		for (var i = 0; i < characterNames.length; i++) {
 			var enemyObject = characters[characterNames[i]];
 			var enemyName = characterNames[i];
 			renderEnemy(enemyObject, environment, enemyName)
 		}
-	} else {
-		console.log("game over");
-	}
 	var playerName = player.name;
 	renderPlayer(player, environment, playerName);
 
 	$('.enemy').on('click', defenderChoice);
-}
-
+};
 
 function removeIndex(char) {
 	var index = characterNames.indexOf(char);
-	characterNames.splice(index, 1);
-}
+	if (index != -1) {
+		characterNames.splice(index, 1);
+	}
+};
 
 function renderEnemy(object, position, name){
 	var newRender = $('<div class="enemy">');
@@ -126,11 +125,11 @@ function renderEnemy(object, position, name){
 };
 
 function renderPlayer(object, position, name){
-	var newRender = $('<div class="player">');
-	$(newRender).attr('id', name);
-	$(newRender).attr('data-index', name);
-	$(newRender).html(object.battleCode());
-	$(newRender).appendTo(position);
+	playerDiv = $('<div class="player">');
+	$(playerDiv).attr('id', name);
+	$(playerDiv).attr('data-index', name);
+	$(playerDiv).html(object.battleCode());
+	$(playerDiv).appendTo(position);
 };
 
 function defenderChoice(){
@@ -138,18 +137,89 @@ function defenderChoice(){
 	var target = $(this).data('index');
 	defenderObject = characters[target];
 	$(this).addClass('defender');
-	var attackButton = createButton();
-	$(this).append(attackButton);
-	debugger;
-}
+	defenderDiv = $(this);
+	var button = createButton();
+	$(this).after(button);
+
+	$('#attackButton').on('click', attackSequence);
+};
 
 function createButton(){
-	var newDiv = $('<div id="attackButton">');
-	$(newDiv).html('Attack!');
-	return newDiv;
+	attackButton = $('<div id="attackButton">');
+	$(attackButton).html('Attack!');
+	return attackButton;
+};
+
+function attackSequence(){
+	defenderObject.health = defenderObject.health - playerObject.newAttack();
+	playerObject.health = playerObject.health - defenderObject.counterAttack;
+
+	outcomeCheck();
+};
+
+function outcomeCheck(){
+	if (defenderObject.health <= 0 && playerObject.health > 0) { //if the defender is dead and the player is alive,
+		isDead(defenderDiv, defenderObject);
+
+		$('.enemy').on('click', defenderChoice);
+
+	} else if (defenderObject.health <= 0 && playerObject.health <= 0) {	//if both the player and defender are dead,
+		
+		isDead(defenderDiv, defenderObject);
+		isDead(playerDiv, playerObject);
+
+		if (characterNames.length <= 0) {		//check for a tie.
+			alert('Tie!');
+			newGame('It\'s a tie!');
+		} else {
+			newGame('You lose!');
+		}
+
+	} else if (defenderObject.health > 0 && playerObject.health <= 0) {	//if the defender is alive and the player is dead,
+		isDead(playerDiv, playerObject);
+	} else {												//if the player is alive and the defender is alive.
+		$(playerDiv).html(playerObject.battleCode());
+		$(defenderDiv).html(defenderObject.battleCode());
+	}
+};
+
+function isDead(div, object){
+	object.health = 0;
+	$(div).html(defenderObject.battleCode());
+	$(div).appendTo('#graveyard');
+	$(div).removeClass('player defender enemy');
+	$(div).addClass('dead');
+
+	$(attackButton).remove();
+
+	removeIndex(object.name);
+
+	$(defenderDiv).html(defenderObject.battleCode());
+	$(playerDiv).html(playerObject.battleCode());
+};
+
+function newGame(message){
+	playAgainDiv(message);
+	$('#yes').on('click', restartGame);
+	$('#no').on('click', function(){
+	$('#restartPanel').remove();
+	})
+};
+
+function playAgainDiv(message){
+	var restartDiv = $('<div id="restartPanel">');
+	$(restartDiv).html('<h1>' + message + '</h1><h2>Play Again?</h2>');
+	var yesButton = $('<button id="yes">Yes</button>');
+	var noButton = $('<button id="no">No</button>');
+	$(restartDiv).append(yesButton);
+	$(restartDiv).append(noButton);
+	$('#characters').append(restartDiv);
 }
 
-menuBuild();
+function restartGame (){
+	console.log('restarted!')
+}
+initialBuild();
 
 
 
