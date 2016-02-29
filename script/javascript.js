@@ -7,37 +7,37 @@ characters = {
 		name: "Starfox",
 		indexNum: 0,
 		picture: "images/starfox.png",
-		health: 150,
+		health: 170,
 		baseAttack: 4,
 		currentAttack: 0,
 		newAttack: function(){
 			this.currentAttack += 4;
 			return this.currentAttack;
 		},
-		counterAttack: 7,
+		counterAttack: 9,
 	},
 	Mario: {
 		name: "Mario",
 		indexNum: 1,
 		picture: "images/mario.png",
-		health: 120,
+		health: 130,
 		baseAttack: 6,
 		currentAttack: 0,
 		newAttack: function(){
-			this.currentAttack += 4;
+			this.currentAttack += 6;
 			return this.currentAttack;
 		},
-		counterAttack: 8,
+		counterAttack: 12,
 	},
 	Link: {
 		name: "Link",
 		indexNum: 2,
 		picture: "images/link.png",
-		health: 150,
+		health: 130,
 		baseAttack: 5,
 		currentAttack: 0,
 		newAttack: function(){
-			this.currentAttack += 4;
+			this.currentAttack += 6;
 			return this.currentAttack;
 		},
 		counterAttack: 11,
@@ -46,11 +46,11 @@ characters = {
 		name: "DonkeyKong",
 		indexNum: 3,
 		picture: "images/donkeyKong.png",
-		health: 190,
+		health: 180,
 		baseAttack: 3,	
 		currentAttack: 0,
 		newAttack: function(){
-			this.currentAttack += 4;
+			this.currentAttack += 3;
 			return this.currentAttack;
 		},
 		counterAttack: 10, 
@@ -168,7 +168,6 @@ function outcomeCheck(){
 		isDead(playerDiv, playerObject);
 
 		if (characterNames.length <= 0) {		//check for a tie.
-			alert('Tie!');
 			newGame('It\'s A Tie!');
 		} else {
 			newGame('You Lost!');
@@ -217,7 +216,7 @@ function playAgainDiv(message){
 }
 
 function restartGame (){
-	console.log('restarted!');
+	location.reload();
 }
 
 initialBuild();
