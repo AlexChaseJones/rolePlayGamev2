@@ -7,7 +7,7 @@ characters = {
 		name: "Starfox",
 		indexNum: 0,
 		picture: "images/starfox.png",
-		health: 170,
+		health: 165,
 		baseAttack: 4,
 		currentAttack: 0,
 		newAttack: function(){
@@ -46,7 +46,7 @@ characters = {
 		name: "DonkeyKong",
 		indexNum: 3,
 		picture: "images/donkeyKong.png",
-		health: 180,
+		health: 175,
 		baseAttack: 3,	
 		currentAttack: 0,
 		newAttack: function(){
@@ -100,10 +100,12 @@ function environmentBuild(player) {
 		for (var i = 0; i < characterNames.length; i++) {
 			var enemyObject = characters[characterNames[i]];
 			var enemyName = characterNames[i];
-			renderEnemy(enemyObject, environment, enemyName)
+			var newRender = $('<div class="enemy">');
+			render(enemyObject, environment, enemyName, newRender);
 		}
 	var playerName = player.name;
-	renderPlayer(player, environment, playerName);
+	playerDiv = $('<div class="player">');
+	render(player, environment, playerName, playerDiv);
 
 	$('.enemy').on('click', defenderChoice);
 };
@@ -115,20 +117,11 @@ function removeIndex(char) {
 	}
 };
 
-function renderEnemy(object, position, name){
-	var newRender = $('<div class="enemy">');
-	$(newRender).attr('id', name);
-	$(newRender).attr('data-index', name);
-	$(newRender).html(object.battleCode());
-	$(newRender).appendTo(position);
-};
-
-function renderPlayer(object, position, name){
-	playerDiv = $('<div class="player">');
-	$(playerDiv).attr('id', name);
-	$(playerDiv).attr('data-index', name);
-	$(playerDiv).html(object.battleCode());
-	$(playerDiv).appendTo(position);
+function render(object, position, name, div){
+	$(div).attr('id', name);
+	$(div).attr('data-index', name);
+	$(div).html(object.battleCode());
+	$(div).appendTo(position);
 };
 
 function defenderChoice(){
