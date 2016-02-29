@@ -1,3 +1,125 @@
-#graveyard {
-	border:5px solid red;
+body, html {
+	width: 100%;
+	height: 100%;
+	font-family: 'Raleway', sans-serif;
 }
+
+.container {
+	min-width: 1200px;
+}
+
+#characters {
+	padding:0px 40px;
+}
+
+#characters > h1 {
+	position: absolute;
+	top: 50px;
+	left:100px;	
+	width: 350px;
+	font-size: 3.5em;
+}
+
+.choice {
+	float: right;
+	display: inline-block;
+	text-align: center;
+	border-radius: 25px;
+	overflow: hidden;
+	margin:15px 10px;
+	background-color: none;
+	transition: background-color .5s;
+	padding:5px;
+}
+
+.choice:hover {
+	background-color: rgba(0,155,0,.6);
+}
+
+.choice h1 {
+	font-size:2em;
+	margin:5px;
+	font-weight: bold;
+
+}
+
+.choice img {
+	width: 130px;
+}
+
+#environment {
+	color: white;
+	width: 1200px;
+	margin:0 auto;
+	min-height: 675px;
+	height: auto;
+	background-image: url('../images/battlePlatform.png');
+	background-position: left top;
+	background-repeat:no-repeat;
+    background-size:1200px 675px;
+    position: relative;
+}
+.enemy, .player {
+	border:5px solid black;
+	border-radius: 15px;
+	display: inline-block;
+	background-color: none;
+	padding: 5px;
+	transition: background-color .4s;
+	position: absolute;
+}
+
+.enemy {
+	border-color: rgba(255,60,0,.6);
+}
+
+.enemy:hover {
+	background-color: rgba(255,60,0,.6);
+}
+
+.player {
+	border-color: rgba(0,155,0,.6);
+}
+
+.player:hover {
+	background-color: rgba(0,155,0,.6);
+}
+
+.enemy img, .player img {
+	width: 150px;
+}
+
+.enemy h1, .player h1 {
+	float: left;
+}
+
+.enemy h2, .player h2 {
+	float: right;	
+}
+
+#starfox {
+
+}
+
+#mario {
+
+}
+
+#link {
+
+}
+
+#donkeyKong {
+
+}
+
+.clearfix {
+	clear: both;
+}
+
+
+
+
+
+
+

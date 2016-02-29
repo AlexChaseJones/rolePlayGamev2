@@ -14,7 +14,7 @@ characters = {
 			this.currentAttack += 4;
 			return this.currentAttack;
 		},
-		counterAttack: 15,
+		counterAttack: 7,
 	},
 	mario: {
 		name: "Mario",
@@ -27,7 +27,7 @@ characters = {
 			this.currentAttack += 4;
 			return this.currentAttack;
 		},
-		counterAttack: 12,
+		counterAttack: 8,
 	},
 	link: {
 		name: "Link",
@@ -40,7 +40,7 @@ characters = {
 			this.currentAttack += 4;
 			return this.currentAttack;
 		},
-		counterAttack: 14,
+		counterAttack: 11,
 	},
 	donkeyKong: {
 		name: "Donkey Kong",
@@ -86,7 +86,6 @@ function initialBuild(){
 };
 
 function playerChoice(){
-	debugger;
 	$('.choice').off('click');
 	var target = $(this).data('index');
 	playerObject = characters[target];	
@@ -177,6 +176,7 @@ function outcomeCheck(){
 
 	} else if (defenderObject.health > 0 && playerObject.health <= 0) {	//if the defender is alive and the player is dead,
 		isDead(playerDiv, playerObject);
+		newGame("You lose!");
 	} else {												//if the player is alive and the defender is alive.
 		$(playerDiv).html(playerObject.battleCode());
 		$(defenderDiv).html(defenderObject.battleCode());
@@ -217,8 +217,9 @@ function playAgainDiv(message){
 }
 
 function restartGame (){
-	console.log('restarted!')
+	console.log('restarted!');
 }
+
 initialBuild();
 
 
