@@ -34,7 +34,7 @@ characters = {
 		indexNum: 2,
 		picture: "images/link.png",
 		health: 130,
-		baseAttack: 5,
+		baseAttack: 6,
 		currentAttack: 0,
 		newAttack: function(){
 			this.currentAttack += 6;
@@ -92,6 +92,7 @@ function playerChoice(){
 	$('#characters').empty();
 	removeIndex(target);
 	environmentBuild(playerObject);
+	$('.player').on('mouseover', displayAttack);
 };
 
 function environmentBuild(player) {
@@ -116,6 +117,21 @@ function removeIndex(char) {
 		characterNames.splice(index, 1);
 	}
 };
+
+function displayAttack(){
+	viewAttackDiv = $('<div id="attackDiv">');
+	$(viewAttackDiv).html('Current Attack:' + (parseInt(playerObject.currentAttack) + playerObject.baseAttack));
+	$(playerDiv).append(viewAttackDiv);
+	$('.player').on('mouseenter', function(){
+		$('#attackDiv').css({
+			"color": "rgba(255,255,255,1)",
+			"visibility": "visible"
+		});
+	})
+	$('.player').on('mouseleave', function(){
+		$('#attackDiv').remove();
+		});
+}
 
 function render(object, position, name, div){
 	$(div).attr('id', name);
@@ -143,7 +159,6 @@ function createButton(){
 function attackSequence(){
 	defenderObject.health = defenderObject.health - playerObject.newAttack();
 	playerObject.health = playerObject.health - defenderObject.counterAttack;
-
 	outcomeCheck();
 };
 
@@ -159,7 +174,7 @@ function outcomeCheck(){
 		
 		isDead(defenderDiv, defenderObject);
 		isDead(playerDiv, playerObject);
-
+		$('.player').off('mouseover');
 		if (characterNames.length <= 0) {		//check for a tie.
 			newGame('It\'s A Tie!');
 		} else {
@@ -170,6 +185,7 @@ function outcomeCheck(){
 		isDead(playerDiv, playerObject);
 		newGame('You Lose!');
 		$('.defender').off('click');
+		$('.player').off('mouseover');
 	} else {												//if the player is alive and the defender is alive.
 		$(playerDiv).html(playerObject.battleCode());
 		$(defenderDiv).html(defenderObject.battleCode());
@@ -183,7 +199,6 @@ function isDead(div, object){
 	$(div).removeClass('enemy player defender');
 	$(div).removeAttr("id");
 	$(div).addClass('dead');
-
 	removeIndex(object.name);
 
 	$(defenderDiv).html(defenderObject.battleCode());

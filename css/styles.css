@@ -74,7 +74,7 @@ body, html {
 	padding: 5px;
 	transition: background-color .4s, transform .4s;
 	position: absolute;
-	overflow: hidden;
+	overflow: h;
 }
 
 .enemy .headBar, .player .headBar {
@@ -160,8 +160,12 @@ body, html {
 .defender {
 	background-color: none;
 	border-color: rgba(255,0,0,.6);
+	transform: rotate(353deg);
 }
 
+.defender img {
+	width: 170px;
+}
 .defender:hover {
 	background-color: rgba(255,0,0,.6);
 }
@@ -210,7 +214,9 @@ body, html {
 #restartPanel {
 	width: 100%;
 	height: 260px;
-	background-color: rgba(200,200,255,.5);
+	background-color: rgba(255,255,255,.5);
+	border-top:10px solid white;
+	border-bottom:10px solid white;
 	color: black;
 	position: absolute;
 	top: 200px;
@@ -221,11 +227,27 @@ body, html {
 
 #yes, #no {
 	padding: 10px 30px;
-	background-color: rgba(200,200,255,.7);
+	background-color: rgba(200,200,200,.7);
 	font-size: .4em;
 	margin:0 15px;
 	border-radius: 5px;
 	border:none;
+}
+
+#yes:hover, #no:hover {
+	background-color: rgba(150,150,150,.9);
+}
+
+#attackDiv {
+	position: absolute;
+	text-align: center;
+	display: inline-block;
+	background-color: rgba(0,0,0,.3);
+	border-radius: 10px;
+	width: 80px;
+	padding:10px 5px;
+	bottom:40px;
+	left:150px;
 }
 .clearfix {
 	clear: both;
