@@ -1,5 +1,7 @@
 # rolePlayGamev2
 
+View the game here: https://pure-badlands-40464.herokuapp.com/
+
 second attempt at building the game, first attempt was almost there, but It failed and it was a result of a lot of a horribly designed foundation that I couldn't go back and fix.
 
 ----notes for me----
